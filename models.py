@@ -3,6 +3,7 @@
 # creating pokemon, type database w/population:
 
 from app import db
+db.create_all()
 from app import Pokemon
 
 bulbasaur = Pokemon('bulbasaur')
