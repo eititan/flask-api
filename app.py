@@ -38,8 +38,8 @@ class Type(db.Model):
             'type': self.type
         }
 
-    def __init__(self, type):
-        self.type = type
+    def __init__(self, typename):
+        self.type = typename
 
     def __repr__(self):
         return '<Type %r>' % self.type
@@ -58,15 +58,22 @@ def api_pokemon_detail(index):
         abort(404)
 
 @app.route('/api/pokemon')
-def api_pokemon():
+def api_pokemon_all():
     all_pokemon = Pokemon.query.all()
     return jsonify([i.serialize for i in all_pokemon])
 
 @app.route('/api/type/<int:index>')
 def api_type_detail(index):
     try:
-        #get type from db with id, then pass data to jinja template
-        #return jsonified results
-        return str(index)
+        type = Type.query.filter(Type.id == index)
+        return jsonify([i.serialize for i in type])
+    except IndexError:
+        abort(404)
+
+@app.route('/api/type')
+def api_type_all():
+    try:
+        all_types = Type.query.all()
+        return jsonify([i.serialize for i in all_types])
     except IndexError:
         abort(404)
