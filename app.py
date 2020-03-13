@@ -27,6 +27,23 @@ class Pokemon(db.Model):
     def __repr__(self):
         return '<Pokemon %r>' % self.name
 
+class Type(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    type = db.Column(db.String(50), unique=True, nullable=False)
+
+    @property
+    def serialize(self):
+        return {
+            'id': self.id,
+            'type': self.type
+        }
+
+    def __init__(self, type):
+        self.type = type
+
+    def __repr__(self):
+        return '<Type %r>' % self.type
+
 
 @app.route('/')
 def hello():
